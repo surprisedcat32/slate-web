@@ -26,7 +26,7 @@ Ports describe how software is downloaded, configured, compiled, and installed.
     cd package-1.0
 
     ./configure --prefix=/usr
-    make -j"$(nproc)"
+    make
     make DESTDIR="$DESTDIR" install
 
 ## Staging
@@ -41,6 +41,12 @@ For Meson:
 
     DESTDIR="$DESTDIR" ninja -C build install
 
+## Build Configuration
+
+Slate provides the MAKETHREADS setting for build configuration.
+
+Parallel compilation is not currently implemented by Slate. Do not assume that MAKETHREADS automatically enables parallel builds.
+
 ## Maintaining Ports
 
 - Use versioned source archives.
@@ -48,6 +54,6 @@ For Meson:
 - Check archive filenames.
 - Keep patches small.
 - Avoid unnecessary dependencies.
-- Test installation and removal.
+- Test installation and uninstallation.
 - Remove temporary build files.
 - Verify that all installed files are staged.

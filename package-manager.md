@@ -1,34 +1,38 @@
 # Slate Package Manager
 
-Slate uses its own package manager to install, remove, search, and manage software.
+Slate uses its own package manager to install and manage software from configured repositories.
 
 ## Commands
 
-Install:
+Install a package:
 
     slate install <category>/<package>
 
-Remove:
+Uninstall a package:
 
-    slate remove <category>/<package>
+    slate uninstall <category>/<package>
 
 List categories:
 
     slate list
 
-Additionally to list packages inside a specific category:
-    
+List packages in a category:
+
     slate list <category>
 
-List installed packages
+List installed packages:
 
     slate installed
+
+Update repository information:
+
+    slate update
 
 ## Package Names
 
 Packages use category/package identifiers.
 
-Example:
+Examples:
 
     slate install lib/zlib
     slate install net/curl
@@ -40,13 +44,15 @@ The meta category contains collections of related packages.
 
 ## Repositories
 
-Slate 0.6 introduces multiple repository support.
+Repository configuration is stored in:
 
-Repository configuration is stored in /etc/slate.conf/repos.
+    /etc/slate.conf/repos
+
+Slate supports multiple repositories and repository version selection.
 
 ## Package Management Notes
 
 - Use complete package identifiers.
-- Check dependencies before installation.
+- Check required build dependencies before installing ports.
 - Review repository configuration.
-- Test package removal.
+- Test package installation and uninstallation.
