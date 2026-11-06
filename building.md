@@ -1,36 +1,62 @@
-# Building Software for Slate
+# Building Slate
 
-Slate uses musl as its C library.
+This document describes the basic build environment used for Slate Linux.
 
-## Cross Compilation
+## Requirements
 
-The target compiler is x86_64-linux-musl-gcc.
+A working Linux build environment is required.
 
-Example:
+The build environment should include:
 
-    x86_64-linux-musl-gcc --sysroot=/path/to/sysroot source.c -o program
+- Git
+- Make
+- CMake
+- GCC
+- Binutils
+- musl toolchain
+- Standard build utilities
+
+## Toolchain
+
+Slate uses a musl cross-compilation toolchain.
+
+The current compiler executable is:
+
+`x86-linux-musl-gcc`
+
+The toolchain is located in `~/toolchain`.
 
 ## Sysroot
 
-The sysroot contains target headers, libraries, and system files.
+The Slate sysroot is located at:
 
-Ensure the sysroot contains all required dependencies.
+`~/distro/sysroot`
 
-## Build Systems
+The sysroot contains the filesystem being assembled for the distribution.
 
-Build systems may require:
+## Building
 
-- CC
-- CXX
-- AR
-- RANLIB
-- PKG_CONFIG
-- PKG_CONFIG_SYSROOT_DIR
+Ports are used to compile and install software into the sysroot.
 
-## Build Failures
+The package manager supports a custom sysroot using:
 
-Common problems include missing dependencies, incorrect host settings, and assumptions about glibc.
+`slate --sysroot DIR install category/package`
 
-## Testing
+## Build Threads
 
-Test compiled software inside a running Slate installation whenever possible.
+Slate reads build options from:
+
+`/etc/slate.conf/makeopts`
+
+The `MAKETHREADS` setting is passed to port scripts. Ports must use this variable when invoking parallel builds.
+
+For example:
+
+`make -j"$MAKETHREADS"`
+
+## ISO
+
+The ISO build process assembles the sysroot, initramfs, kernel, and bootloader files into a bootable image.
+
+Refer to the build scripts in the Slate repository for the current image creation procedure.
+

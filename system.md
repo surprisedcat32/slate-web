@@ -1,34 +1,40 @@
-# Slate System Overview
+# System Overview
 
-Slate is a lightweight Linux distribution built around a minimal base system, musl libc, a custom package manager, and a categorized ports collection.
+Slate Linux is a minimal Linux distribution built around a simple userspace and a collection of independently maintained ports.
 
-## Design Goals
+## Design
 
-- Keep the default installation minimal.
-- Avoid unnecessary background services.
-- Prefer simple tools and straightforward configuration.
-- Provide a package manager and ports tree.
-- Support command-line and graphical environments.
-- Minimize unnecessary dependencies.
+Slate follows a DIY philosophy. The base installation provides the essentials, while additional software is installed by the user.
 
-## Core Components
+The system avoids unnecessary dependencies and does not require a particular desktop environment.
 
-### C Library
-Slate uses musl as its C library. Software should be built against the Slate target environment.
+## Components
 
-### Package Management
-Slate uses its own package manager and ports collection.
+### Userspace
 
-### Initialization
-Slate uses a custom shell-based initialization system and a project-maintained initramfs.
+Slate uses musl as its C library and provides standard utilities through its installed userspace packages.
 
-### Desktop
-X11 software is provided through the x11 ports category. Graphical components are optional.
+### Package Manager
 
-## Filesystem
+The Slate package manager installs and removes software from configured ports repositories.
 
-System configuration is generally stored under /etc. Executables are installed under /bin and /usr/bin, with libraries under /lib and /usr/lib.
+### Ports
 
-## Architecture
+Software is built from shell-based port scripts. Ports download source archives, configure packages, compile them, and install their files into a staging directory.
 
-Slate targets x86_64-linux-musl.
+### Init System
+
+Slate uses a custom shell-based initialization system based on `/bin/rc.init` and scripts in `/etc/init.d/`.
+
+### Boot
+
+The initramfs uses Toybox utilities and Slate boot programs to locate and mount the root filesystem before switching into the installed system.
+
+### Graphics
+
+Slate supports X11. Desktop environments and window managers are installed separately.
+
+## Philosophy
+
+Slate is intended to remain small, understandable, and customizable. Users choose what software they install and how they configure their systems.
+

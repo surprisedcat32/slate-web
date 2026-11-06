@@ -1,46 +1,48 @@
-# Slate Init System
+# Initialization
 
-Slate uses a lightweight shell-based initialization system.
+Slate uses a custom shell-based init system.
 
-The main initialization script is /bin/rc.init.
+## Main Init Program
 
-## Startup Scripts
+The main initialization program is:
 
-Startup scripts are stored in /etc/init.d/.
+`/bin/rc.init`
 
-Example:
+It sets the system PATH and executes scripts located in:
 
-    /etc/init.d/
-    ├── 01-filesystems
-    ├── 02-network
-    └── 03-hostname
+`/etc/init.d/`
 
-Scripts execute sequentially in lexicographical order using /bin/sh.
+## Init Scripts
 
-Scripts ending in .sh or .rc are skipped by the documented implementation.
+Scripts are executed in filename order.
+
+Numeric prefixes can be used to control execution order.
+
+For example:
+
+- `01-filesystems`
+- `02-network`
+- `03-hostname`
+
+Scripts ending in `.sh` or `.rc` are skipped by the initialization runner.
 
 ## Boot Logging
 
-Startup output is recorded in /var/log/boot.log.
+Boot output is recorded in:
 
-Each script receives a status:
+`/var/log/boot.log`
 
-- [ OK ] - Successful execution.
-- [FAIL] - Failed execution.
+## Services
 
-Execution time is also recorded.
+Services are managed through scripts in `/etc/init.d/`.
 
-A failed startup script does not prevent subsequent scripts from executing.
+The behavior of service scripts depends on their implementation. Some support arguments such as `start`, `stop`, and `restart`.
 
-## Virtual Terminals
+## Gettys
 
-Three virtual terminals are started using Toybox getty.
+Slate starts three virtual terminal gettys.
 
-Terminals restart if getty exits.
+## Failure Handling
 
-## Writing Startup Scripts
+A failing init script does not necessarily prevent later scripts from executing. Check the boot log when troubleshooting initialization problems.
 
-- Use POSIX shell syntax.
-- Give scripts executable permissions.
-- Prefix filenames with numbers.
-- Keep scripts focused on one task.

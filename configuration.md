@@ -1,46 +1,47 @@
-# System Configuration
+# Configuration
 
-System configuration files are generally stored under /etc.
-
-## Hostname
-
-The hostname identifies the machine on the local network.
-
-## Filesystems
-
-Persistent filesystem mounts are configured through /etc/fstab.
-
-## Users
-
-User account information is maintained through the standard system account files.
-
-## Timezone
-
-Install the required timezone data before configuring a timezone.
-
-## Groups
-
-Some devices and services require users to belong to specific groups.
+Slate stores its system configuration under `/etc/slate.conf/`.
 
 ## Repositories
 
-Repository configuration is stored in:
+The repository configuration is:
 
-    /etc/slate.conf/repos
+`/etc/slate.conf/repos`
 
-Each repository entry contains a Git repository URL and a version or testing selection.
+Each entry defines a repository URL and the version to use.
 
 Example:
 
-    https://example.org/slate-ports.git 0.6
-    https://example.org/extra-ports.git testing
+`https://github.com/surprisedcat32/slate-ports.git 0.6`
 
-Blank lines and commented-out entries are ignored.
+Repositories can also use special version identifiers.
 
-A release tag selects a specific repository version. The testing selection uses the latest development branch.
+- `current` uses the version specified in `/etc/slate.conf/ver`.
+- `testing` tracks the repository main branch.
 
-## Build Configuration
+Repositories are checked in configuration order. Earlier repositories take priority when duplicate packages are available.
 
-Slate uses the MAKETHREADS setting for build configuration.
+## Version
 
-Parallel compilation is not currently implemented.
+The installed Slate version is stored in:
+
+`/etc/slate.conf/ver`
+
+## Build Options
+
+Build options are stored in:
+
+`/etc/slate.conf/makeopts`
+
+For example:
+
+`MAKETHREADS=4`
+
+The package manager passes this setting to port scripts. Individual ports decide how to use it.
+
+## Package Manager Configuration
+
+The package manager supports selecting a sysroot and enabling options such as silent installation and forced removal.
+
+See [Package Manager](package-manager.md) for details.
+

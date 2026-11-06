@@ -1,36 +1,42 @@
-# Ports Directory Layout
+# Ports Layout
 
-Ports are organized into categories under /usr/ports.
+Slate organizes software into categories inside the ports tree.
 
-Each package normally contains a port.sh build script.
+The default ports directory is:
+
+`/usr/ports`
 
 ## Categories
 
-- dev: Compilers and development tools.
-- lib: Libraries.
-- meta: Package collections.
-- misc: Miscellaneous software.
-- net: Networking software.
-- perl: Perl and Perl modules.
-- system: Core system software.
-- utils: General utilities.
-- x11: X11 software and desktop applications.
+Packages are organized by purpose.
 
-## Example
+Examples include:
 
-    /usr/ports/
-    ├── dev/
-    │   └── cmake/
-    │       └── port.sh
-    ├── lib/
-    │   └── zlib/
-    │       └── port.sh
-    └── x11/
-        └── dillo/
-            └── port.sh
+- `base`
+- `dev`
+- `lib`
+- `net`
+- `x11`
+- `desktop`
+- `utils`
 
-## Counting Ports
+## Package Structure
 
-    find . -type f -name port.sh | wc -l
+Each package has its own directory containing a `port.sh` script.
 
-Ports are grouped by their primary purpose.
+Example:
+
+`/usr/ports/dev/bison/port.sh`
+
+## Multiple Repositories
+
+Slate supports multiple ports repositories.
+
+Repositories are configured in `/etc/slate.conf/repos`.
+
+This allows additional ports collections to be maintained separately from the main repository.
+
+## Port Scripts
+
+Each port script is responsible for downloading source code, extracting it, configuring the build, compiling the software, and installing files into the staging directory.
+

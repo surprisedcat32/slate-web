@@ -1,43 +1,44 @@
 # Networking
 
-Slate networking is initialized through startup scripts.
-
-## Interfaces
-
-Show interfaces:
-
-    ip link
-
-Show assigned addresses:
-
-    ip addr
-
-Show routes:
-
-    ip route
+Slate provides basic networking through its initialization scripts and userspace networking utilities.
 
 ## Ethernet
 
-Ethernet configuration requires a working kernel driver and an appropriate DHCP client when DHCP is used.
+The default networking initialization script configures the Ethernet interface.
 
-## Wi-Fi
+The current setup uses:
 
-Wi-Fi support generally requires:
+- `ip`
+- `sdhcp`
 
-- A kernel driver.
-- Firmware when required.
-- iw.
-- wpa_supplicant.
-- A DHCP client.
+The default Ethernet interface is `eth0`.
 
 ## Loopback
 
-The loopback interface should be initialized during system startup.
+The loopback interface is configured during initialization.
+
+## DHCP
+
+Slate uses `sdhcp` to obtain network configuration through DHCP.
+
+## Wireless
+
+Wireless networking requires additional software.
+
+Common packages include:
+
+- `iw`
+- `wpa_supplicant`
+
+These can be installed through the Slate package manager.
 
 ## Troubleshooting
 
-- Check interfaces with ip link.
-- Check addresses with ip addr.
-- Check routes with ip route.
-- Inspect kernel messages with dmesg.
-- Verify required drivers and firmware.
+Check the following when networking does not work:
+
+- Verify that the network interface exists.
+- Check the interface state with `ip link`.
+- Verify that DHCP is running successfully.
+- Check that the required firmware is installed.
+- Verify that wireless authentication is configured correctly.
+

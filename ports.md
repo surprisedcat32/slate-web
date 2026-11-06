@@ -1,59 +1,22 @@
-# Creating and Maintaining Ports
+# Maintaining Ports
 
-Ports describe how software is downloaded, configured, compiled, and installed.
+Slate ports are shell scripts used to build and install software.
 
-## Creating a Port
-
-1. Choose a category.
-2. Create a package directory.
-3. Create port.sh.
-4. Add source download commands.
-5. Extract the source.
-6. Configure the build.
-7. Compile the software.
-8. Install into DESTDIR.
-9. Test the package.
+Each package has a `port.sh` file inside its package directory.
 
 ## Example Port
 
-    #!/bin/sh
-    set -e
+```sh
+#!/bin/sh
+set -e
 
-    cd /usr/ports/category/package
+cd "$PORTS_DIR"
 
-    curl -LO https://example.org/package-1.0.tar.xz
-    tar -xf package-1.0.tar.xz
-    cd package-1.0
+curl -LO https://example.org/package-1.0.tar.xz
+tar -xf package-1.0.tar.xz
 
-    ./configure --prefix=/usr
-    make
-    make DESTDIR="$DESTDIR" install
+cd package-1.0
 
-## Staging
-
-Ports should install into DESTDIR rather than directly into the running system.
-
-For Make:
-
-    make DESTDIR="$DESTDIR" install
-
-For Meson:
-
-    DESTDIR="$DESTDIR" ninja -C build install
-
-## Build Configuration
-
-Slate provides the MAKETHREADS setting for build configuration.
-
-Parallel compilation is not currently implemented by Slate. Do not assume that MAKETHREADS automatically enables parallel builds.
-
-## Maintaining Ports
-
-- Use versioned source archives.
-- Verify download URLs.
-- Check archive filenames.
-- Keep patches small.
-- Avoid unnecessary dependencies.
-- Test installation and uninstallation.
-- Remove temporary build files.
-- Verify that all installed files are staged.
+./configure --prefix=/usr
+make -j"$MAKETHREADS"
+make DESTDIR="$DESTDIR" install

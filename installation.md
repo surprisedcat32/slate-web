@@ -1,39 +1,38 @@
-# Installing Slate
+# Installation
 
-## Preparation
+This document describes the general Slate installation process.
 
-- Back up important data.
-- Identify the target disk.
-- Determine whether the machine uses UEFI or BIOS.
-- Ensure required drivers and filesystem utilities are available.
+## Requirements
 
-## Partitioning
+You need:
 
-Useful tools include parted and gdisk.
+- A bootable Slate image
+- A target disk
+- A working bootloader configuration
 
-Inspect disks before making changes:
+## Disk Preparation
 
-    lsblk
+Use a partitioning utility such as `cfdisk` to prepare the target disk.
 
-## Filesystems
+Create the required Linux partition and configure your bootloader as appropriate for your system.
 
-Create the required filesystems and mount the target root filesystem.
+## Installing
 
-## Bootloader
+The Slate installation process prepares the target filesystem and installs the Slate system image.
 
-Install and configure a bootloader appropriate for the machine.
-
-GRUB is one supported bootloader option being prepared for Slate.
+After installation, ensure that the root filesystem is configured correctly in your bootloader.
 
 ## First Boot
 
-Verify:
+After booting into Slate:
 
-- The kernel loads.
-- The initramfs starts.
-- Root filesystem selection works.
-- switch-root succeeds.
-- Startup scripts execute.
-- A login prompt appears.
-- Networking works.
-- Reboot and shutdown work.
+1. Log in.
+2. Check that the root filesystem is mounted correctly.
+3. Verify network connectivity.
+4. Configure repositories.
+5. Install any additional software you need.
+
+## Customization
+
+Slate provides a minimal base system. Users are expected to install and configure their preferred software, window manager, desktop environment, and other tools.
+

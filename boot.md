@@ -1,36 +1,34 @@
-# Boot Process and Initramfs
+# Boot Process
 
-Slate maintains its own initramfs.
+Slate uses an initramfs to locate and mount the installed root filesystem.
 
-## Components
+## Initramfs
 
-- init: Early userspace entry point.
-- toybox: Provides basic utilities.
-- choose-root: Selects the root filesystem.
-- slate-switch-root: Switches to the real root filesystem.
+The initramfs contains the utilities and programs required to locate the root filesystem and transfer control to the installed system.
 
-## Boot Process
+Toybox provides basic userspace utilities.
 
-1. The kernel loads the initramfs.
-2. The init script creates required mount points.
-3. devtmpfs, proc, and sysfs are mounted.
-4. choose-root locates the real root filesystem.
-5. The real root filesystem is prepared.
-6. slate-switch-root transfers execution to the installed system.
+## Boot Sequence
 
-## Initramfs Layout
+1. The kernel starts the initramfs.
+2. The initramfs mounts `/proc`, `/sys`, and `/dev`.
+3. Available block devices are enumerated.
+4. `choose-root` identifies the root device.
+5. The root filesystem is mounted at `/newroot`.
+6. `slate-switch-root` transfers execution to the installed system.
+7. The installed system starts `/sbin/init`.
 
-    initramfs/
-    ├── init
-    └── bin/
-        ├── toybox
-        ├── choose-root
-        └── slate-switch-root
+## Root Filesystem
+
+The root filesystem is mounted read-only during the initial root selection process. The installed initialization scripts handle the normal filesystem mounts and remounting.
 
 ## Troubleshooting
 
-- Verify /init exists and is executable.
-- Verify Toybox is present.
-- Check root filesystem selection.
-- Check kernel storage and filesystem drivers.
-- Inspect early boot output.
+If Slate cannot boot:
+
+- Check that the root filesystem exists.
+- Verify that the root device can be detected.
+- Check that the required filesystem support is available.
+- Verify that the initramfs contains `choose-root` and `slate-switch-root`.
+- Check the kernel command line and bootloader configuration.
+
